@@ -1,6 +1,7 @@
 CREATE TABLE task (
     task_id SERIAL PRIMARY KEY NOT NULL,
-    task_desc VARCHAR(255),
+    task_name VARCHAR(128) UNIQUE,
+    task_desc VARCHAR(256),
     due_date DATE,
     task_status VARCHAR(10) DEFAULT 'TODO' CHECK(task_status IN ('TODO', 'DOING', 'DONE')),
     task_artifacts JSON
