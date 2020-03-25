@@ -19,5 +19,41 @@ router.get('/get-tasks', async (req, res, next) => {
     }
 })
 
+router.get('/get-tasks-with-items', async (req, res, next) => {
+    try {
+        if (req.query.id) {
+            let result = await todoService.getTaskWithItemsById(req.query.id);
+            return res.status(200).json(result);
+        }
+        else {
+            let result = await todoService.getTaskWithItems();
+            return res.status(200).json(result);
+        }
+
+    }
+    catch (ex) {
+        return res.status(500).json({ message: ex.toString() });
+    }
+});
+
+
+router.post('/create-task', async (req, res, next) => {
+    try {
+        let task = {
+            taskName: req.body.taskName,
+            taskDesc: req.body.taskDesc,
+            dueDate: req.body.dueDate,
+            taskStatus: req.body.taskStatus,
+            taskArtifacts: req.body.taskArtifacts
+        }
+        let result = await todoService.createTask(task);
+        return res.status(201).json(result);
+
+    }
+    catch (ex) {
+        return res.status(500).json({ message: ex.toString() });
+    }
+});
+
 
 module.exports = router;
