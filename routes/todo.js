@@ -55,5 +55,21 @@ router.post('/create-task', async (req, res, next) => {
     }
 });
 
+router.post('/create-task-item', async (req, res, next) => {
+    try {
+        let taskItem = {
+            name: req.body.name,
+            status: req.body.status,
+            taskId: req.body.taskId
+        }
+        let result = await todoService.createTaskItem(taskItem);
+        return res.status(201).json(result);
+    }
+    catch(ex) {
+        console.log(ex);
+        return res.status(500).json({ message: ex.toString() });
+    }
+});
+
 
 module.exports = router;

@@ -37,11 +37,19 @@ async function createTask(task) {
     return result.rows;
 }
 
+async function createTaskItem(taskItem) {
+    let query = "INSERT INTO task_item (item_name, item_status, task_id) VALUES($1, $2, $3) RETURNING task_item_id";
+    let params = [taskItem.name, taskItem.status, taskItem.taskId];
+    let result = await dbPool.query(query, params);
+    return result.rows;
+}
+
 
 module.exports = {
     getTasks: getTasks,
     getTaskById: getTaskById,
     getTaskWithItems: getTaskWithItems,
     getTaskWithItemsById: getTaskWithItemsById,
-    createTask: createTask
+    createTask: createTask,
+    createTaskItem: createTaskItem
 }
