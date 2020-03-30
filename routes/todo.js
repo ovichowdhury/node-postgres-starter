@@ -71,5 +71,15 @@ router.post('/create-task-item', async (req, res, next) => {
     }
 });
 
+router.delete('/delete-task-item/:id', async (req, res,next) => {
+    try {
+        let result = await todoService.deleteTaskItem(req.params.id);
+        return res.status(200).json({message: "Deleted Successfully", id: result.id});
+    }
+    catch(ex) {
+        return res.status(500).json({ message: ex.toString() });
+    }
+});
+
 
 module.exports = router;

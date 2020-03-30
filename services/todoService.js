@@ -44,6 +44,13 @@ async function createTaskItem(taskItem) {
     return result.rows;
 }
 
+async function deleteTaskItem(id) {
+    let query = "DELETE FROM task_item WHERE task_item_id = $1";
+    let params = [id];
+    await dbPool.query(query, params);
+    return {id: id};
+}
+
 
 module.exports = {
     getTasks: getTasks,
@@ -51,5 +58,6 @@ module.exports = {
     getTaskWithItems: getTaskWithItems,
     getTaskWithItemsById: getTaskWithItemsById,
     createTask: createTask,
-    createTaskItem: createTaskItem
+    createTaskItem: createTaskItem,
+    deleteTaskItem: deleteTaskItem
 }
