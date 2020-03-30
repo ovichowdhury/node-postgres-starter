@@ -52,6 +52,33 @@ async function deleteTaskItem(id) {
 }
 
 
+async function deleteTask(id) {
+    const client = await dbPool.connect();
+    try {
+        await client.query('BEGIN');
+
+        let query1 = "DELETE FROM task_item WHERE task_id = $1";
+        let params1 = [id];
+        await client.query(query1, params1);
+
+        let query2 = "DELETE FROM task WHERE task_id = $1";
+        let params2 = [id];
+        await client.query(query2, params2);
+
+        await client.query('COMMIT')
+    }
+    catch(e) {
+        await client.query('ROLLBACK')
+        throw e
+    }
+    finally {
+        client.release()
+    }
+
+    return {id: id};
+}
+
+
 module.exports = {
     getTasks: getTasks,
     getTaskById: getTaskById,
@@ -59,5 +86,6 @@ module.exports = {
     getTaskWithItemsById: getTaskWithItemsById,
     createTask: createTask,
     createTaskItem: createTaskItem,
-    deleteTaskItem: deleteTaskItem
+    deleteTaskItem: deleteTaskItem,
+    deleteTask: deleteTask
 }
