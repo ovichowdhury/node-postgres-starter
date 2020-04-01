@@ -79,6 +79,21 @@ async function deleteTask(id) {
 }
 
 
+async function updateTask(id, key, value) {
+    key = key.split(' ')[0];
+    let keyList = ['task_name','task_desc' ,'due_date' ,'task_status' ,'task_artifacts'];
+    let keyIndex = keyList.indexOf(key);
+    if(keyIndex > -1) {
+        let query = `UPDATE task SET ${key} = $1 WHERE task_id = $2;`;
+        let params = [value, id];
+        let result = await dbPool.query(query, params);
+        return result;
+
+    }
+    return null;
+}
+
+
 module.exports = {
     getTasks: getTasks,
     getTaskById: getTaskById,
@@ -87,5 +102,6 @@ module.exports = {
     createTask: createTask,
     createTaskItem: createTaskItem,
     deleteTaskItem: deleteTaskItem,
-    deleteTask: deleteTask
+    deleteTask: deleteTask,
+    updateTask: updateTask
 }
