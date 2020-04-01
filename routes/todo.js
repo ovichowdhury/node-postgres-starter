@@ -96,7 +96,7 @@ router.delete('/delete-task/:id', async (req, res, next) => {
 router.put('/update-task/:id', async (req, res, next) => {
     try {
         let result = await todoService.updateTask(req.params.id, req.body.key, req.body.value);
-        return res.status(200).json(result);
+        return res.status(200).json({message: "Updated Successfully", id: result.id});
     }
     catch(ex) {
         return res.status(500).json({ message: ex.toString() });

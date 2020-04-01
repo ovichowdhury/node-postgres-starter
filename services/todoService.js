@@ -86,8 +86,8 @@ async function updateTask(id, key, value) {
     if(keyIndex > -1) {
         let query = `UPDATE task SET ${key} = $1 WHERE task_id = $2;`;
         let params = [value, id];
-        let result = await dbPool.query(query, params);
-        return result;
+        await dbPool.query(query, params);
+        return {id: id};
 
     }
     return null;
